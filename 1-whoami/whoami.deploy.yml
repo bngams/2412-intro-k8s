@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami
+  namespace: whoami
+spec:
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  replicas: 5
+  selector:
+    matchLabels:
+      name: whoami
+  template:
+    metadata:
+      name: whoami
+      namespace: whoami
+      labels:
+        name: whoami
+        version: v2
+    spec:
+      containers:
+      - name: whoami
+        image: containous/whoami
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+          # requests 
+        ports:
+          - containerPort: 80
